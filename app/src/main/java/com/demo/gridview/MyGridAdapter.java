@@ -1,9 +1,12 @@
 package com.demo.gridview;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 
 /**
  * Created by 1027 on 2016-12-03.
@@ -12,11 +15,10 @@ import android.widget.BaseAdapter;
 public class MyGridAdapter extends BaseAdapter {
     Context context;
     int[] posters = {
-            R.drawable.mov01,R.drawable.mov02,R.drawable.mov03,
-            R.drawable.mov04,R.drawable.mov05,R.drawable.mov06,
-            R.drawable.mov07,R.drawable.mov08,R.drawable.mov09,
-            R.drawable.mov10,R.drawable.mov11,R.drawable.mov12,
-            R.drawable.mov13,R.drawable.mov14,R.drawable.mov15
+            R.drawable.mov01,R.drawable.mov02,R.drawable.mov03,R.drawable.mov04,
+            R.drawable.mov05,R.drawable.mov06,R.drawable.mov07,R.drawable.mov08,
+            R.drawable.mov09,R.drawable.mov10,R.drawable.mov11,R.drawable.mov12,
+            R.drawable.mov13,R.drawable.mov14,R.drawable.mov15,R.drawable.mov16
     };
 
     public MyGridAdapter(Context context) {
@@ -40,6 +42,28 @@ public class MyGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View v, ViewGroup g) {
-        return null;
+        ImageView imageview = new ImageView(context);
+        imageview.setLayoutParams(new GridView.LayoutParams(350, 400));
+        imageview.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        imageview.setPadding(5, 5, 5, 5);
+
+        imageview.setImageResource(posters[i]);
+
+        final int pos = i;
+        imageview.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                View dialog = View.inflate(context, R.layout.dialog, null);
+                AlertDialog.Builder ad = new AlertDialog.Builder(context);
+                ImageView iv = (ImageView) dialog.findViewById(R.id.iv_poster);
+                iv.setImageResource(posters[pos]);
+                ad.setTitle("MOVIE");
+                ad.setIcon(R.drawable.movie_icon);
+                ad.setView(dialog);
+                ad.setNegativeButton("CLOSE", null);
+                ad.show();
+            }
+        });
+
+        return imageview;
     }
 }
